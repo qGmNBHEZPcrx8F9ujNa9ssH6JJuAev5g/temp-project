@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <title>Eduardo Lozano</title>
   <style>
     body        { font-family: system-ui, sans-serif; margin: 0; padding: 2rem; text-align: center; }
-    h1, h3  { margin-top: 0; }
+    h1, h2      { margin-top: 0; }
     #countdown  { font-size: 2.5rem; letter-spacing: 0.05em; margin: 1.5rem 0; }
     .segment    { display: inline-block; min-width: 4.5ch; }
     .label      { font-size: 0.8rem; display: block; }
@@ -15,7 +15,7 @@
 </head>
 <body>
 
-  <h1>Domain SOLD</h1>
+  <h1>eduardo-lozano.com SOLD</h1>
 
   <div id="countdown">
     <span class="segment" id="days">00<br><span class="label">days</span></span>
@@ -25,22 +25,22 @@
   </div>
 
   <div class="card">
-    <h3>Contact</h3>
+    <h2>Contact</h2>
     <code>8ex1VQBEWWCyQkHt3XysQlM8jJTegYFp@protonmail.com</code>
   </div>
 
   <div class="card">
-    <h3>Monero</h3>
+    <h2>Monero</h2>
     <code>84b4NSmj7Atdn9u7zNxJvqEzS85cQ58wd2DFPAUU3K2uVaVMWPNJRneh5ctgEEVEVw38UMQ1RFUNwM1ZA2r4xqWyU15qttk</code>
   </div>
 
   <script>
     function getTargetDate() {
-      const now  = new Date();
+      const now = new Date();
       const year = (now.getMonth() > 8 || (now.getMonth() === 8 && now.getDate() >= 5)) ? now.getFullYear() + 1 : now.getFullYear();
       return new Date(year, 9, 16, 0, 0, 0, 0);
     }
-
+    
     const target = getTargetDate();
     const els = {
       d: document.getElementById('days'),
