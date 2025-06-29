@@ -2,30 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Countdown to Sept 5</title>
+  <title>Eduardo Lozano</title>
   <style>
     body        { font-family: system-ui, sans-serif; margin: 0; padding: 2rem; text-align: center; }
     h1, h2      { margin-top: 0; }
     #countdown  { font-size: 2.5rem; letter-spacing: 0.05em; margin: 1.5rem 0; }
     .segment    { display: inline-block; min-width: 4.5ch; }
     .label      { font-size: 0.8rem; display: block; }
-
-    /* Simple card-ish look for contact & wallet sections */
-    .card       { border: 1px solid #ccc; border-radius: 0.4rem; max-width: 500px;
-                  margin: 1.5rem auto; padding: 1rem; }
+    .card       { border: 1px solid #ccc; border-radius: 0.4rem; max-width: 500px; margin: 1.5rem auto; padding: 1rem; }
     .card code  { user-select: all; word-break: break-all; }
     a.email     { text-decoration: none; }
   </style>
 </head>
 <body>
 
-  <!-- ----------  WELCOME  ---------- -->
-  <h1>Welcome to My Project!</h1>
-  <p>Thanks for dropping by. Below you’ll find a live countdown, ways to contact me,
-     and my Monero address if you’d like to support the work.</p>
+  <h1>domain SOLD</h1>
 
-  <!-- ----------  COUNTDOWN  ---------- -->
-  <h2>Time until Sept&nbsp;5&nbsp;00:00</h2>
+  <h2>TTL</h2>
 
   <div id="countdown">
     <span class="segment" id="days">00<br><span class="label">days</span></span>
@@ -34,30 +27,23 @@
     <span class="segment" id="seconds">00<br><span class="label">seconds</span></span>
   </div>
 
-  <!-- ----------  CONTACT  ---------- -->
   <div class="card">
     <h2>Contact</h2>
     <p>
-      Email me at
-      <a class="email" href="mailto:alice@example.com">alice@example.com</a>
+      <a class="email" href="mailto:8ex1VQBEWWCyQkHt3XysQlM8jJTegYFp@protonmail.com">8ex1VQBEWWCyQkHt3XysQlM8jJTegYFp@protonmail.com</a>
     </p>
   </div>
 
-  <!-- ----------  MONERO WALLET  ---------- -->
   <div class="card">
-    <h2>Monero donations</h2>
-    <p>Every contribution helps keep the project alive 💜</p>
-    <code id="xmr-wallet">43fVfYyZ…ReplaceWithYourFullMoneroAddress…9hj</code>
+    <h2>Monero</h2>
+    <code id="xmr-wallet">84b4NSmj7Atdn9u7zNxJvqEzS85cQ58wd2DFPAUU3K2uVaVMWPNJRneh5ctgEEVEVw38UMQ1RFUNwM1ZA2r4xqWyU15qttk</code>
   </div>
 
-  <!-- ----------  SCRIPT  ---------- -->
   <script>
-    /* ----------  COUNTDOWN LOGIC (unchanged except wrapped for clarity) ---------- */
     function getTargetDate() {
       const now  = new Date();
-      const year = (now.getMonth() > 8 || (now.getMonth() === 8 && now.getDate() >= 5))
-                   ? now.getFullYear() + 1 : now.getFullYear();
-      return new Date(year, 8, 5, 0, 0, 0, 0); // Sept = 8 (0-based index)
+      const year = (now.getMonth() > 8 || (now.getMonth() === 8 && now.getDate() >= 5)) ? now.getFullYear() + 1 : now.getFullYear();
+      return new Date(year, 10, 16, 0, 0, 0, 0);
     }
 
     const target = getTargetDate();
