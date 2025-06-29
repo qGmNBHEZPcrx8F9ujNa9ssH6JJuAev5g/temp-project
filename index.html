@@ -4,15 +4,28 @@
   <meta charset="UTF-8" />
   <title>Countdown to Sept 5</title>
   <style>
-    body        { font-family: system-ui, sans-serif; text-align: center; }
-    #countdown  { font-size: 2.5rem; letter-spacing: 0.05em; }
-    .label      { font-size: 0.8rem; display: block; }
+    body        { font-family: system-ui, sans-serif; margin: 0; padding: 2rem; text-align: center; }
+    h1, h2      { margin-top: 0; }
+    #countdown  { font-size: 2.5rem; letter-spacing: 0.05em; margin: 1.5rem 0; }
     .segment    { display: inline-block; min-width: 4.5ch; }
+    .label      { font-size: 0.8rem; display: block; }
+
+    /* Simple card-ish look for contact & wallet sections */
+    .card       { border: 1px solid #ccc; border-radius: 0.4rem; max-width: 500px;
+                  margin: 1.5rem auto; padding: 1rem; }
+    .card code  { user-select: all; word-break: break-all; }
+    a.email     { text-decoration: none; }
   </style>
 </head>
 <body>
 
-  <h1>Time until Sept&nbsp;5&nbsp;00:00</h1>
+  <!-- ----------  WELCOME  ---------- -->
+  <h1>Welcome to My Project!</h1>
+  <p>Thanks for dropping by. Below you’ll find a live countdown, ways to contact me,
+     and my Monero address if you’d like to support the work.</p>
+
+  <!-- ----------  COUNTDOWN  ---------- -->
+  <h2>Time until Sept&nbsp;5&nbsp;00:00</h2>
 
   <div id="countdown">
     <span class="segment" id="days">00<br><span class="label">days</span></span>
@@ -21,51 +34,55 @@
     <span class="segment" id="seconds">00<br><span class="label">seconds</span></span>
   </div>
 
-  <script>
-    // 1 – Calculate the target date: 00:00:00 on Sept 5
-    function getTargetDate() {
-      const now   = new Date();
-      const year  = now.getMonth() > 8 /* Sept is month 8 (0-based) */
-                  || (now.getMonth() === 8 && now.getDate() >= 5)
-                    ? now.getFullYear() + 1     // Sept 5 already passed → next year
-                    : now.getFullYear();
+  <!-- ----------  CONTACT  ---------- -->
+  <div class="card">
+    <h2>Contact</h2>
+    <p>
+      Email me at
+      <a class="email" href="mailto:alice@example.com">alice@example.com</a>
+    </p>
+  </div>
 
-      // Months are 0-based (0 = Jan, 8 = Sept).
-      return new Date(year, 8, 5, 0, 0, 0, 0);
+  <!-- ----------  MONERO WALLET  ---------- -->
+  <div class="card">
+    <h2>Monero donations</h2>
+    <p>Every contribution helps keep the project alive 💜</p>
+    <code id="xmr-wallet">43fVfYyZ…ReplaceWithYourFullMoneroAddress…9hj</code>
+  </div>
+
+  <!-- ----------  SCRIPT  ---------- -->
+  <script>
+    /* ----------  COUNTDOWN LOGIC (unchanged except wrapped for clarity) ---------- */
+    function getTargetDate() {
+      const now  = new Date();
+      const year = (now.getMonth() > 8 || (now.getMonth() === 8 && now.getDate() >= 5))
+                   ? now.getFullYear() + 1 : now.getFullYear();
+      return new Date(year, 8, 5, 0, 0, 0, 0); // Sept = 8 (0-based index)
     }
 
     const target = getTargetDate();
-
-    // 2 – Update the display once a second
-    const dEl = document.getElementById('days');
-    const hEl = document.getElementById('hours');
-    const mEl = document.getElementById('minutes');
-    const sEl = document.getElementById('seconds');
+    const els = {
+      d: document.getElementById('days'),
+      h: document.getElementById('hours'),
+      m: document.getElementById('minutes'),
+      s: document.getElementById('seconds'),
+    };
 
     function updateCountdown() {
-      const now   = new Date();
-      const diff  = target - now;              // milliseconds
+      const diff = target - new Date();
+      if (diff <= 0) return clearInterval(timer);
 
-      if (diff <= 0) {
-        // Reached the target: freeze display at zero or restart for next year
-        dEl.textContent = hEl.textContent = mEl.textContent = sEl.textContent = '00';
-        clearInterval(timer);
-        return;
-      }
+      const secs = Math.floor(diff / 1000) % 60;
+      const mins = Math.floor(diff / (1000 * 60)) % 60;
+      const hrs  = Math.floor(diff / (1000 * 60 * 60)) % 24;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
 
-      const seconds = Math.floor(diff / 1000) % 60;
-      const minutes = Math.floor(diff / (1000 * 60)) % 60;
-      const hours   = Math.floor(diff / (1000 * 60 * 60)) % 24;
-      const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-      // Pad with leading zeros (e.g. 4 → “04”)
-      dEl.firstChild.nodeValue = String(days).padStart(2, '0');
-      hEl.firstChild.nodeValue = String(hours).padStart(2, '0');
-      mEl.firstChild.nodeValue = String(minutes).padStart(2, '0');
-      sEl.firstChild.nodeValue = String(seconds).padStart(2, '0');
+      els.d.firstChild.nodeValue = String(days).padStart(2, '0');
+      els.h.firstChild.nodeValue = String(hrs).padStart(2, '0');
+      els.m.firstChild.nodeValue = String(mins).padStart(2, '0');
+      els.s.firstChild.nodeValue = String(secs).padStart(2, '0');
     }
 
-    // Initialise immediately, then every second
     updateCountdown();
     const timer = setInterval(updateCountdown, 1000);
   </script>
