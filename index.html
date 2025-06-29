@@ -1,46 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Countdown Timer</title>
+  <meta charset="UTF-8" />
+  <title>Countdown to Sept 5</title>
   <style>
-    #timer {
-      font-size: 2em;
-      font-family: sans-serif;
-    }
+    body        { font-family: system-ui, sans-serif; text-align: center; }
+    #countdown  { font-size: 2.5rem; letter-spacing: 0.05em; }
+    .label      { font-size: 0.8rem; display: block; }
+    .segment    { display: inline-block; min-width: 4.5ch; }
   </style>
 </head>
 <body>
 
-<h2>Countdown Timer</h2>
-<div id="timer"></div>
+  <h1>Time until Sept&nbsp;5&nbsp;00:00</h1>
 
-<script>
-  const targetDate = new Date("2025-6-29T20:00:00").getTime();
+  <div id="countdown">
+    <span class="segment" id="days">00<br><span class="label">days</span></span>
+    <span class="segment" id="hours">00<br><span class="label">hours</span></span>
+    <span class="segment" id="minutes">00<br><span class="label">minutes</span></span>
+    <span class="segment" id="seconds">00<br><span class="label">seconds</span></span>
+  </div>
 
-  const timer = document.getElementById("timer");
+  <script>
+    // 1 – Calculate the target date: 00:00:00 on Sept 5
+    function getTargetDate() {
+      const now   = new Date();
+      const year  = now.getMonth() > 8 /* Sept is month 8 (0-based) */
+                  || (now.getMonth() === 8 && now.getDate() >= 5)
+                    ? now.getFullYear() + 1     // Sept 5 already passed → next year
+                    : now.getFullYear();
 
-  function updateCountdown() {
-    const now = new Date().getTime();
-    const distance = targetDate - now;
-
-    if (distance <= 0) {
-      timer.innerHTML = "Time's up!";
-      clearInterval(countdownInterval);
-      return;
+      // Months are 0-based (0 = Jan, 8 = Sept).
+      return new Date(year, 8, 5, 0, 0, 0, 0);
     }
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    const target = getTargetDate();
 
-    timer.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-  }
+    // 2 – Update the display once a second
+    const dEl = document.getElementById('days');
+    const hEl = document.getElementById('hours');
+    const mEl = document.getElementById('minutes');
+    const sEl = document.getElementById('seconds');
 
-  // Update the countdown every second
-  const countdownInterval = setInterval(updateCountdown, 1000);
-  updateCountdown(); // initial call to avoid 1s delay
-</script>
+    function updateCountdown() {
+      const now   = new Date();
+      const diff  = target - now;              // milliseconds
+
+      if (diff <= 0) {
+        // Reached the target: freeze display at zero or restart for next year
+        dEl.textContent = hEl.textContent = mEl.textContent = sEl.textContent = '00';
+        clearInterval(timer);
+        return;
+      }
+
+      const seconds = Math.floor(diff / 1000) % 60;
+      const minutes = Math.floor(diff / (1000 * 60)) % 60;
+      const hours   = Math.floor(diff / (1000 * 60 * 60)) % 24;
+      const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+      // Pad with leading zeros (e.g. 4 → “04”)
+      dEl.firstChild.nodeValue = String(days).padStart(2, '0');
+      hEl.firstChild.nodeValue = String(hours).padStart(2, '0');
+      mEl.firstChild.nodeValue = String(minutes).padStart(2, '0');
+      sEl.firstChild.nodeValue = String(seconds).padStart(2, '0');
+    }
+
+    // Initialise immediately, then every second
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 1000);
+  </script>
 
 </body>
 </html>
